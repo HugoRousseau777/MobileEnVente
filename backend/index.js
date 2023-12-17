@@ -3,6 +3,7 @@ const cors = require("cors");
 require("./db/config");
 const User = require("./db/User");
 const Product = require("./db/Products");
+const UserCart = require("./db/UserCart");
 const app = express();
 
 const Jwt = require('jsonwebtoken');
@@ -10,20 +11,53 @@ const jwtKey = 'e-com';
 
 app.use(express.json()); // Middleware
 app.use(cors()); // Middleware
+app.disable('etag');
+
+/*Enregistrement et visualisation des paniers utilisateurs */
+
+app.post("/cart", async (req,res)=> {
+  let cart = new UserCart(req.body);
+  let result = await cart.save();
+  res.send(result);
+})
+
+app.get("/cart/:userId", async(req,res)=> {
+  const carts = await UserCart.find({userId: req.params.userId});
+      res.send(carts);
+})
 
 
+/*Modif : Rajouter la date d'inscription */
 app.post("/register", async (req, res) => {
   let user = new User(req.body);
-  let result = await user.save();
+  const doubleName = await User.findOne({name: req.body.name});
+  const doubleEmail = await User.findOne({name: req.body.email});
+
+  if(!doubleName && !doubleEmail) {
+    if(req.body.password !== req.body.confirmPassword){
+      res.send("Confirmez correctement votre mot de passe !")
+    } else {
+      // Si les MDP sont = && le nom et l'email ne sont pas pris : 
+      let result = await user.save(); 
+      Jwt.sign({result}, jwtKey, {expiresIn : "2h"}, (err, token) => {
+        if (err) {
+          res.send("Something went wrong");
+        }
+        res.send({result, auth: token});
+      })
+    }
+   
+  } else if(!doubleEmail) {
+    res.send("name already taken !")
+  } else if(!doubleName) {
+    res.send("email already taken !")
+  } else {
+    res.send("email and username already taken !")
+  }
   /*result = result.toObject(); // Allows to do line bellow
   delete result.password;*/
-  /*Jwt Add*/ 
-  Jwt.sign({result}, jwtKey, {expiresIn : "2h"}, (err, token) => {
-    if (err) {
-      res.send("Something went wrong");
-    }
-    res.send({result, auth: token});
-  })
+  /*Jwt Add*/
+  
 });
 
 app.post("/login",  async (req, res) => {
@@ -53,8 +87,8 @@ app.post("/add-product", verifyToken, async (req, res)=>{
 app.get("/products", verifyToken, async (req,res)=>{
   const products = await Product.find();
   if(products.length>0){
-    res.send(products);
-  } else {
+      res.send(products);
+    } else {
     res.send({result:"No products !"})
   }
 })
@@ -63,8 +97,6 @@ app.delete("/product/:id", verifyToken, async (req, res)=> {
   let result = await Product.deleteOne({_id: req.params.id});
   res.send(result);
 })
-
-
 
 app.put("/product/:id", verifyToken, async(req, res) => {
   let result = await Product.updateOne(

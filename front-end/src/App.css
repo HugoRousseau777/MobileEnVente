@@ -1,5 +1,10 @@
 .nav-ul {
+  height: 3em;
+  font-size: 17px;
   background-color: blue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .logo{
@@ -18,15 +23,18 @@
 }
 
 .register, .login {
-  margin-left: 30%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .inputBox {
-  display: block;
   padding: 7px;
   border: 1px solid skyblue;
   width: 300px;
-  margin:20px;
+  margin-bottom: 1em;
 }
 
 .product-list ul {
@@ -70,6 +78,14 @@
 
 .App-link {
   color: #61dafb;
+}
+
+/*cart*/
+
+.cart {
+  width: 100%;
+  justify-content: center;
+  display: flex;
 }
 
 @keyframes App-logo-spin {

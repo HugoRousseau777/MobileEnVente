@@ -9,6 +9,7 @@ const Nav = () => {
     localStorage.clear();
     navigate("/signup");
   };
+  
   return (
     <div>
       <img className="logo" src="https://yt3.googleusercontent.com/ytc/APkrFKZ2MZZcwiRZwDCd719cQbBhD7lt4pHypApsByXZCA=s900-c-k-c0x00ffffff-no-rj"/>
@@ -26,8 +27,11 @@ const Nav = () => {
           <Link to="/profile">Profile</Link>
         </li>
         <li>
+          <Link to="/cart">Cart</Link>
+        </li>
+        <li>
             <Link onClick={logout} to="/signup">
-              Logout {JSON.parse(auth).name}
+            Logout {JSON.parse(auth).name}
             </Link>
         </li>
       </ul>

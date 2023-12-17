@@ -8,6 +8,8 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import PrivateComponent from './components/PrivateComponent';
 import ProductList from './components/ProductList';
 import UpdateProduct from './components/updateProduct';
+import Profile from './components/Profile';
+import Cart from './components/Cart';
 
 function App() {
   return (
@@ -19,8 +21,9 @@ function App() {
       <Route path="/" element={<ProductList/>}/>
       <Route path="/add" element={<AddProduct/>}/>
       <Route path="/update/:id" element={<UpdateProduct/>}/>
+      <Route path="/cart" element={<Cart/>}/>
       <Route path="/logout" element={<h1>Logout Component</h1>}/>
-      <Route path="/profile" element={<h1>Profile Component</h1>}/>
+      <Route path="/profile" element={<Profile/>}/>
       </Route>
       <Route path="/signup" element={<SignUp/>}/>
       <Route path="/login" element={<Login/>}/>

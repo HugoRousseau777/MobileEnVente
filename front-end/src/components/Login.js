@@ -28,6 +28,7 @@ const Login = () => {
     if(result.auth){
       localStorage.setItem('user', JSON.stringify(result.user));
       localStorage.setItem('token', JSON.stringify(result.auth));
+      localStorage.setItem('cart', JSON.stringify([])); // Ajout panier + register
       navigate("/");
     } else {
       alert("Please enter connect details");

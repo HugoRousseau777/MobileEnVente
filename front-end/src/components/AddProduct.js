@@ -14,8 +14,6 @@ const AddProduct =  ()=>{
             return false;
         }
 
-
-        console.warn(name, price, category, company);
         const userId = JSON.parse(localStorage.getItem('user'))._id; // localStorage.getItem('user')._id doesnt work
         console.warn(userId);
         let result = await fetch("http://localhost:5000/add-product",{ // Doit être l'adresse de la route
@@ -28,7 +26,6 @@ const AddProduct =  ()=>{
 
         });
         result = await result.json();
-        console.warn(result);
         setName('');
         setPrice('');
         setCategory('');
@@ -41,7 +38,7 @@ const AddProduct =  ()=>{
             <h1>Add Product</h1>
             <input type="text" placeholder="enter name" value={name} onChange={(e)=>{setName(e.target.value)}}/>
            {error  && !name && <span className='invalid-input'>Enter valid name</span>}
-            <input type="text" placeholder="enter price" value={price} onChange={(e)=>{setPrice(e.target.value)}}/>
+            <input type="number" placeholder="enter price" value={price} onChange={(e)=>{setPrice(e.target.value)}}/>
             {error  && !price && <span className='invalid-input'>Enter a valid price</span>}
             <input type="text" placeholder="enter category" value={category} onChange={(e)=>{setCategory(e.target.value)}}/>
             {error  && !category && <span className='invalid-input'>Enter valid category</span>}
