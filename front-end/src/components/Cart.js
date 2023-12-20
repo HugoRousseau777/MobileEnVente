@@ -26,7 +26,7 @@ const Cart=()=> {
     }
 
     const validatePurchase = async()=>{
-        let result = await fetch("http://localhost:5000/cart", {
+        let result = await fetch("https://uuu-3fwk.onrender.com/cart", {
             method:'post',
             body:JSON.stringify({cart, userId, total}),
             headers:{
