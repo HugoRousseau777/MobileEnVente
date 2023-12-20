@@ -6,9 +6,23 @@ const Product = require("./db/Products");
 const UserCart = require("./db/UserCart");
 const app = express();
 
+//import {connect} from "./db/config"
 const Jwt = require('jsonwebtoken');
 const jwtKey = 'e-com';
 
+const uri = "mongodb+srv://hugo:megaman00@cluster0.7qqwlqk.mongodb.net/e-comm?retryWrites=true&w=majority"; // Attention à mettre le nom de la db apprès .net/
+const mongoose = require('mongoose');
+
+async function connect() {
+  try {
+   await mongoose.connect(uri);
+  console.log("connected to mongodb");
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+connect();
 app.use(express.json()); // Middleware
 app.use(cors()); // Middleware
 app.disable('etag');
