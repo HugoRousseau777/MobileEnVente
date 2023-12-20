@@ -21,7 +21,7 @@ const Profile=()=>{
     const getCarts = async()=> {
         const userId = user._id;
         console.warn(userId);
-        let result = await fetch(`http://localhost:5000/cart/${userId}`, {
+        let result = await fetch(`https://uuu-3fwk.onrender.com/cart/${userId}`, {
             headers: {
                 authorization:`bearer ${JSON.parse(localStorage.getItem('token'))}`
             }
