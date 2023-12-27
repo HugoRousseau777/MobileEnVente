@@ -26,7 +26,7 @@ const Cart=()=> {
     }
 
     const validatePurchase = async()=>{
-        let result = await fetch("https://uuu-3fwk.onrender.com/cart", {
+        let result = await fetch("http://localhost:5000/cart", {
             method:'post',
             body:JSON.stringify({cart, userId, total}),
             headers:{
@@ -67,16 +67,16 @@ const Cart=()=> {
 
     //console.warn(cart[0]);
     return(<div>
-        <h1>Coucou</h1>
+        
         <div className="cart">
+        <h1>Your cart</h1>
             <div className="articles">
             {
                 cart.map((item, index)=> 
                     <ul className="article"key={index}>
-                    <li>{index}</li>
-                    <li>{item.name}</li>
+                    <li className="name">{item.name}</li>
                     <li>{item.price}</li>
-                    <li>{item.category}</li>
+                    <li>{item.condition}</li>
                     <li>{item.company}</li>
                     <li>
                         <button onClick={(e)=>{deleteFromCart(index)}}>Delete</button>
@@ -85,11 +85,10 @@ const Cart=()=> {
                 )
                 
             }
-            <button onClick={validatePurchase}>Commander</button>
+            <p>Total : {total} €</p>
+            <button className="command" onClick={validatePurchase}>Commander</button>
             </div>
-            <div>
-            {total} 
-            </div>
+            
            
        
     </div>

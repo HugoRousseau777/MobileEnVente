@@ -16,7 +16,7 @@ const ProductList=()=>{
 
     const getProducts = async () => {
         let products = [];
-        let result = await fetch('https://uuu-3fwk.onrender.com/products', {
+        let result = await fetch('http://localhost:5000/products', {
             headers:{
                 authorization:`bearer ${JSON.parse(localStorage.getItem('token'))}` // Only Change  
                 //Viewable in Network -> products in Name column far down-left -> 
@@ -36,7 +36,7 @@ const ProductList=()=>{
 
     const deleteProduct= async(id)=>{
         console.warn(id);
-        let result = await fetch(`https://uuu-3fwk.onrender.com/product/${id}`, {
+        let result = await fetch(`http://localhost:5000/product/${id}`, {
             method:"Delete",
             headers: {
                 authorization: `bearer ${JSON.parse(localStorage.getItem('token'))}`
@@ -52,7 +52,7 @@ const ProductList=()=>{
     }
 
     const addToCart= async(id)=> {
-        let result = await fetch(`https://uuu-3fwk.onrender.com/product/${id}`, {
+        let result = await fetch(`http://localhost:5000/product/${id}`, {
             headers: {
                 authorization: `bearer ${JSON.parse(localStorage.getItem('token'))}`
             }
@@ -65,7 +65,7 @@ const ProductList=()=>{
     const searchHandle = async(event)=>{
         let key = event.target.value;
         if(key){
-            let result = await fetch(`https://uuu-3fwk.onrender.com/search/${key}`, {
+            let result = await fetch(`http://localhost:5000/search/${key}`, {
                 headers: {
                     authorization:`bearer ${JSON.parse(localStorage.getItem('token'))}`
                 }
@@ -82,25 +82,32 @@ const ProductList=()=>{
     }
     return (
         <div className="product-list">
-            <h3>Product List</h3>
+            <h1>Product List</h1>
             <input type="text" className="search-product-box" placeholder="Search your product" onChange={searchHandle}/>
+            <div className="products">
             {
                products.length>0 ? products.map((item, index)=> 
-                    <ul key={item._id}>
-                    <li>{index+1}</li>
+               <>
+               <div className="product">
+                   <div className="product-img"></div>
+                    <ul key={item._id} >
                     <li>{item.name}</li>
                     <li>{item.price}</li>
                     <li>{item.category}</li>
                     <li>{item.company}</li>
-                    <li>
-                        <button onClick={()=>{deleteProduct(item._id)}}>Delete</button>
-                        <Link to={"/update/" + item._id}>Update</Link> 
-                        <button onClick={()=>{addToCart(item._id)}}>Buy</button>
-                        </li>
-                </ul>
+                    </ul>
+                    <div className="product-buttons">
+                        <button className="super-button" onClick={()=>{deleteProduct(item._id)}}>Delete</button>
+                       <Link to={"/update/" + item._id}><a className="super-button">Update</a></Link>
+                        <button className="super-button" onClick={()=>{addToCart(item._id)}}>Buy</button>
+                    </div>
+                </div>
+                </>
+
                 )
                 : <h1>No result found</h1>
             }
+            </div>
         </div>
     )
 }

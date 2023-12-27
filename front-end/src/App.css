@@ -1,3 +1,9 @@
+h1 {
+  text-align: center;
+  margin-bottom: 0;
+}
+
+
 .nav-ul {
   height: 3em;
   font-size: 17px;
@@ -37,14 +43,6 @@
   margin-bottom: 1em;
 }
 
-.product-list ul {
-  display: inline-block;
-  list-style: none;
-}
-.product-list ul li {
-  text-decoration: none;
-}
-
 .appButton {
   background-color: blue;
   width: 150px;
@@ -58,6 +56,166 @@
   bottom: 0px;
   background-color: blue;
 }
+
+/*ProductList*/
+
+.product-list {
+  text-align: center;
+}
+
+.product-list h1 {
+  margin-top: 0;
+  font-size: 28px;
+  margin-bottom: 0.6em;
+}
+
+.product-list input {
+  font-size: 23px;
+  text-align: center;
+  margin-bottom: 1.6em;
+}
+
+.products {
+  margin-left: auto;
+  margin-right: auto;
+  width: 65%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.product {
+  height: 300px;
+  padding: 0;
+  padding-bottom: 1.6em;
+  border-radius: 25px;
+  width: 19%;
+  border: 1px solid red;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.product-img {
+  margin-top: 5px; /*Sinon ça empiète sur la bordure*/
+  background-image: url("/Users/hugo/Desktop/e-dashboard/front-end/public/images/téléchargement.jpeg");
+  background-repeat: no-repeat;
+  background-position: center top -23px;
+  aspect-ratio: 1/1;
+}
+
+.product ul, .product p {
+  padding: 0;
+  margin: 0;
+}
+
+.product a {
+  text-decoration: none;
+}
+
+.product a:visited {
+  color: white;
+}
+
+.product-list ul {
+  list-style: none;
+}
+.product-list ul li {
+  text-decoration: none;
+}
+
+.product-buttons {
+  flex-wrap: wrap;
+  margin-top: 1em;
+}
+
+.super-button {
+  background-color: blue;
+  border-radius: 15px;
+  margin-left: 5px;
+  margin-right: 10px;
+  font-size: 15px;
+  padding: 10px 10px 10px 10px;
+  color: white;
+  border: black solid 1px;
+}
+
+.add-product{
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  width: 35%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 1.6em;
+  border-radius: 15px;
+  background-color: rgb(149, 149, 240);
+}
+
+#name-select, #price, #company, #addProduct {
+  margin-top: 0.6em;
+  text-align: center;
+  font-size: 1.4em;
+  height: 3em;
+  width: 60%;
+  appearance:none;
+  align-self: center;
+  padding-left: 0;
+  padding-right: 0;
+  border: 1px solid black;
+  border-radius: 25px;
+}
+
+#price::placeholder, #company::placeholder {
+  color: black;
+}
+
+.add-product .condition{
+  border-radius: 25px;
+  border: 1px solid black;
+  margin-top: 0.6em;
+  padding-bottom: 0.4em;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.6em;
+  align-self: center;
+  width: 60%;
+  justify-content: space-between;
+}
+
+.condition p {
+  margin: 0;
+  margin-bottom: 0.6em;
+}
+
+.containerCondBut {
+  width: 87%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.add-product .condition button {
+  border-radius: 50%;
+  width: 75px;
+  aspect-ratio: 1/1;
+}
+.add-product .condition button:hover {
+  width: 70px;
+  background-color: blue;
+  color: white;
+}
+
+.add-product .selected {
+  width: 70px;
+  background-color: blue;
+  color: white;
+}
+
+
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
@@ -80,12 +238,149 @@
   color: #61dafb;
 }
 
+/*Profile*/
+
+#registrationDate {
+  margin-top: 0.2em;
+  text-align: center;
+}
+
+.containerPurchases {
+  border-radius: 25px;
+  font-size: 1.2em;
+  padding-top: 0em;
+  padding-bottom: 0.4em;
+  width: 30%;
+  border: 1px solid red;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.containerPurchases h2 {
+  margin-bottom: 0.6em;
+}
+
+.containerPurchases ul {
+  list-style: none;
+  padding: 0;
+}
+
+.commande {
+  background-color: aqua;
+  border-radius: 35px;
+  margin-top: 1em;
+  padding-bottom: 100px;
+}
+
+.commande li {
+  margin-bottom: 0.8em;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+.dateCommande {
+  color: red;
+  margin-bottom: 1.6em;
+  padding-top: 1.6em;
+}
+
+.listeArticles {
+  padding-bottom: 0.8em;
+  margin-bottom: 0em;
+}
+
+.listeArticles li {
+  text-align: center;
+  background-color: aquamarine;
+  margin-top: 0.6em;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 0;
+  width: fit-content;
+  border-radius: 8px;
+  padding-top: 0.4em;
+  padding-bottom: 0.4em;
+}
+
+.totauxTotaux {
+  margin: 0;
+  padding: 0;
+  margin-bottom: 0.6em;
+  background-color: blue;
+  padding: 0.8em;
+  border-radius: 20px;
+  font-size: 22px;
+}
+
 /*cart*/
 
 .cart {
-  width: 100%;
-  justify-content: center;
+  background-color: #61dafb;
+  padding: 1em 3em 2.2em;
+  border-radius: 25px;
+  width: 9%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.cart ul {
+  white-space: nowrap;
   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 180px;
+  font-size: 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background-color: blue;
+  border-radius: 25px;
+}
+
+.cart .article {
+  padding: 0.4em 1.2em 0.6em 1.2em;
+  margin-top: 1.2em;
+}
+
+.article .name {
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.article button {
+  font-size: 20px;
+  padding: 0.3em;
+  border-radius: 20px;
+}
+
+.cart .command {
+  margin-top: 0.7em;
+  font-size: 24px;
+  padding: 0.2em 0.6em 0.2em 0.6em;
+  border-radius: 25px;
+}
+
+.cart p {
+  margin-top: 1.8em;
+  width: fit-content;
+  border: 1px solid black;
+  font-size: 20px;
+  padding: 0.2em 0.6em 0.2em 0.6em;
+  border-radius: 20px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/*Takes out arrows in input number from addProduct*/
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 @keyframes App-logo-spin {

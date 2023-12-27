@@ -94,6 +94,7 @@ app.post("/login",  async (req, res) => {
 
 app.post("/add-product", verifyToken, async (req, res)=>{
     let product = new Product(req.body);
+    console.log(product);
     let result = await product.save();
    res.send(result);
 });

@@ -17,7 +17,7 @@ const SignUp=()=>{
     
     const collectData=async()=> {
         console.warn(name,email,password);
-        let result = await fetch("https://uuu-3fwk.onrender.com/register", {
+        let result = await fetch("http://localhost:5000/register", { /*Remplacement du localhost pour connecter le BA au FE  */
             method:'post',
             body:JSON.stringify({name,email,password, confirmPassword}),
             headers:{
