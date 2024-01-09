@@ -12,7 +12,6 @@ const Nav = () => {
   
   return (
     <div>
-      <img className="logo" src="https://yt3.googleusercontent.com/ytc/APkrFKZ2MZZcwiRZwDCd719cQbBhD7lt4pHypApsByXZCA=s900-c-k-c0x00ffffff-no-rj"/>
 {
       auth ?
       <ul className="nav-ul">

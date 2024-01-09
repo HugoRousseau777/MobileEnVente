@@ -39,6 +39,10 @@ app.get("/cart/:userId", async(req,res)=> {
   const carts = await UserCart.find({userId: req.params.userId});
       res.send(carts);
 })
+app.get("/carts", async(req,res)=> {
+  const carts = await UserCart.find();
+      res.send(carts);
+})
 
 
 /*Modif : Rajouter la date d'inscription */
@@ -94,12 +98,11 @@ app.post("/login",  async (req, res) => {
 
 app.post("/add-product", verifyToken, async (req, res)=>{
     let product = new Product(req.body);
-    console.log(product);
     let result = await product.save();
-   res.send(result);
+    res.send(result);
 });
 
-app.get("/products", verifyToken, async (req,res)=>{
+app.get("/products", async (req,res)=>{
   const products = await Product.find();
   if(products.length>0){
       res.send(products);
@@ -107,6 +110,22 @@ app.get("/products", verifyToken, async (req,res)=>{
     res.send({result:"No products !"})
   }
 })
+// Ajout tri par prix !!! Fonctionne, plus qu'à pouvoir l'adapter au curseur
+app.get("/productsbypriceMore/:key", async (req, res)=> {
+  const products = await Product.find({price: {$gt:req.params.key}}).sort({"price": -1, "_id": 1}); // trie le prix par ordre décroissant (l'id est là pour avoir le même ordre à chaque fois qu'on a des prix identiques) 
+  res.send(products);
+  /* Empêchait la MAJ quand tous les produits de la page allaient être supprimés par la requête !!! 
+  if(products.length>0){
+    
+  } else {
+    res.send("Ohoh");
+  }*/
+})
+app.get("/productsbypriceLess/:key", async (req, res)=> {
+  const products = await Product.find({price: {$lt:req.params.key}}).sort({"price": 1, "_id": 1});
+  res.send(products);
+})
+
 
 app.delete("/product/:id", verifyToken, async (req, res)=> {
   let result = await Product.deleteOne({_id: req.params.id});

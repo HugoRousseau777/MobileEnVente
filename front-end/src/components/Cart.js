@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
-
-       
+  
 const Cart=()=> {
     
     const [cart, setCart]= useState([JSON.parse(localStorage.getItem("cart"))]);
@@ -37,10 +36,8 @@ const Cart=()=> {
         console.warn("done!");
         setCart([]);
         localStorage.setItem("cart", JSON.stringify([]));
-        
         setTotal(0);
     }
-
 
     const getTotal = ()=> {
         let totalounet = 0;
@@ -65,6 +62,24 @@ const Cart=()=> {
         getCart(); // Permet de retirer de la page sans avoir à recharger 
     };
 
+    const addProductToListAfterDelete = async (item)=>{
+        const userId = JSON.parse(localStorage.getItem('user'))._id; 
+        let name = item.name;
+        let price = item.price;
+        let condition = item.condition;
+        let company = item.company;
+        let result = await fetch("http://localhost:5000/add-product",{ 
+            method:"post",
+            body:JSON.stringify({name, price, condition, company}),
+            headers: {
+                "Content-Type":"application/json",
+                authorization:`bearer ${JSON.parse(localStorage.getItem('token'))}`
+            }
+        });
+        result = await result.json();
+        alert("Product added !");
+    }
+
     //console.warn(cart[0]);
     return(<div>
         
@@ -75,27 +90,25 @@ const Cart=()=> {
                 cart.map((item, index)=> 
                     <ul className="article"key={index}>
                     <li className="name">{item.name}</li>
-                    <li>{item.price}</li>
+                    <li>{item.price} €</li>
                     <li>{item.condition}</li>
                     <li>{item.company}</li>
                     <li>
-                        <button onClick={(e)=>{deleteFromCart(index)}}>Delete</button>
+                        <button onClick={(e)=>{
+                                                addProductToListAfterDelete(item);
+                                                deleteFromCart(index);
+                                                }}>Delete</button>
                         </li>
                 </ul>
                 )
                 
             }
-            <p>Total : {total} €</p>
+            <p className="totalCart">Total : {total} €</p>
             <button className="command" onClick={validatePurchase}>Commander</button>
             </div>
-            
-           
-       
     </div>
     </div>
     )
 }
 
 export default Cart;
-
-/*Si le panier est vide, la page s'affiche mal ! */

@@ -1,6 +1,5 @@
 import './App.css';
 import Nav from './components/Nav'; 
-import Footer from './components/Footer';
 import SignUp from './components/signUp';
 import Login from './components/Login';
 import AddProduct from './components/AddProduct';
@@ -29,7 +28,7 @@ function App() {
       <Route path="/login" element={<Login/>}/>
     </Routes>
       </BrowserRouter>
-      <Footer/>  
+      
     </div>
   );
 }
