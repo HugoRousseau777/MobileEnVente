@@ -12,14 +12,15 @@ const ProductList=()=>{
     const [price, setPrice] = React.useState(0);
     const [priceMore, setPriceMore] = useState(0);
     const [priceLess, setPriceLess] = useState(0);
-    const [countPerfect, setCountPerfect] = useState(false);
-    const [countGood, setCountGood] = useState(false);
-    const [countOk, setCountOk] = useState(false);
-    const [countBad, setCountBad] = useState(false);
+
 
     // Ajustement pour la classe selected :
 
     const conditionButtons = Array.from(document.getElementsByClassName("conditionButton"));
+    const [countPerfect, setCountPerfect] = useState(false);
+    const [countGood, setCountGood] = useState(false);
+    const [countOk, setCountOk] = useState(false);
+    const [countBad, setCountBad] = useState(false);
 
 
     let cart = JSON.parse(localStorage.getItem("cart"));
@@ -40,7 +41,7 @@ const ProductList=()=>{
 
     const getProducts = async () => {
         let interM = [];
-        let result = await fetch('http://localhost:5000/products', {
+        let result = await fetch('https://uuu-3fwk.onrender.com/products', {
             headers:{
                 authorization:`bearer ${JSON.parse(localStorage.getItem('token'))}` // Only Change  
                 //Viewable in Network -> products in Name column far down-left -> 
@@ -211,7 +212,7 @@ const ProductList=()=>{
 
     const deleteProduct= async(id)=>{
         console.warn(id);
-        let result = await fetch(`http://localhost:5000/product/${id}`, {
+        let result = await fetch(`https://uuu-3fwk.onrender.com/${id}`, {
             method:"Delete",
             headers: {
                 authorization: `bearer ${JSON.parse(localStorage.getItem('token'))}`
@@ -227,7 +228,7 @@ const ProductList=()=>{
     }
 
     const addToCart= async(id)=> {
-        let result = await fetch(`http://localhost:5000/product/${id}`, {
+        let result = await fetch(`https://uuu-3fwk.onrender.com/${id}`, {
             headers: {
                 authorization: `bearer ${JSON.parse(localStorage.getItem('token'))}`
             }
@@ -270,20 +271,37 @@ const ProductList=()=>{
         }
 
     const getPriceLess = async(event)=>{
+        let interM = [];
+        if (countPerfect || countGood || countOk){
+            for(let i=0; i<productsInterCondition.length; i++){
+                interM.push(productsInterCondition[i]);
+            }
+        } else {
+            for(let i=0; i<allProducts.length; i++)
+            interM.push(allProducts[i]);
+        }
         let key = event.target.value;
         if(key){
-            let result = await fetch(`http://localhost:5000/productsByPriceLess/${key}`);
-            result = await result.json();
-            if(result){
-                setProducts(result);
-                          }
+            
+            setPriceLess(key);
+            for(let i=0; i< interM.length;i++){
+                if( interM[i].price < key){
+                    delete interM[i];
                 }
+            }
+            //
+            interM = interM.filter((a)=> a); // Retire les cases vides de l'array
+            setProductsInterPrix(interM)      
+            } else {
+                setPriceLess(0)
+            }
+        setProducts(interM); 
     } 
 //
     const searchHandle = async(event)=>{
         let key = event.target.value;
         if(key){
-            let result = await fetch(`http://localhost:5000/search/${key}`, {
+            let result = await fetch(`https://uuu-3fwk.onrender.com/${key}`, {
                 headers: {
                     authorization:`bearer ${JSON.parse(localStorage.getItem('token'))}`
                 }
