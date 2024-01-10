@@ -6,6 +6,8 @@ const ProductList=()=>{
     const [products, setProducts]= useState([]); // Should be used in getProducts
     const [allProducts, setAllProducts] = useState([]);
     const [productsInterPrix, setProductsInterPrix] = useState([]);
+    const [productsInterPrixMoreThan, setProductsInterPrixMoreThan] = useState([]);
+    const [productsInterPrixLessThan, setProductsInterPrixLessThan] = useState([]);
     const [productsInterCondition, setProductsInterCondition] = useState([]);
     const [productsCondition, setProductsCondition] = useState([]);
     const [condition, setCondition] = React.useState('');
@@ -41,7 +43,7 @@ const ProductList=()=>{
 
     const getProducts = async () => {
         let interM = [];
-        let result = await fetch('https://uuu-3fwk.onrender.com/products', {
+        let result = await fetch('http://localhost:5000/products', {
             headers:{
                 authorization:`bearer ${JSON.parse(localStorage.getItem('token'))}` // Only Change  
                 //Viewable in Network -> products in Name column far down-left -> 
@@ -59,160 +61,123 @@ const ProductList=()=>{
     }
 
 // Changes for condition choice :
+
     const getPerfect = async() => {
+        setCountGood(false);
+        setCountOk(false);
+        setCountBad(false);
+        setCountPerfect(true);
+    
+    let inter = []; 
     //
-    setCountGood(false);
-    setCountOk(false);
-    setCountBad(false);
-    setCountPerfect(true);
-    conditionButtons[1].classList.remove("selected");
-    conditionButtons[2].classList.remove("selected");
-    conditionButtons[3].classList.remove("selected");
-    conditionButtons[0].classList.add("selected");
-    //
-
-    let interM = []; // Initialiser l'array vide puis le remplir comme ça permet de ne pas faire appel aux mêmes cases mémoires et changer productsInter à chaque fois
-
-    if(priceMore > 0){
-            // En récupérant directement tous les produits puis en effectuant un filtre d'array sur le prix désiré, c'est plus pratique.
-        let triadou = allProducts.filter((product) => product.price > priceMore);
-        for(let i=0; i<triadou.length;i++)
-        interM.push(triadou[i]);
-    } else {
-        for(let i=0; i<allProducts.length;i++){
-            interM.push(allProducts[i]);
-        }
-    }
-    //
-    if (countPerfect == true){
+    if (countPerfect == true && priceLess > 0 || priceMore > 0){
        setCountPerfect(false);
-       conditionButtons[0].classList.remove("selected");
-    } else {
-        for(let i=0; i<interM.length;i++){
-            if (interM[i].condition == "Bad" || interM[i].condition == "Good" || interM[i].condition == "Ok"){
-             delete interM[i];
+       setProducts(productsInterPrix);
+    } else if (countPerfect == true){
+        setCountPerfect(false);
+        getProducts();
+     } else {
+        if(priceMore > 0|| priceLess > 0) {
+            for (let i=0; i<productsInterPrix.length;i++){
+                inter.push(productsInterPrix[i]);
+            }
+        for (let i=0; i<inter.length; i++){
+            if (inter[i].condition == "Bad" || inter[i].condition == "Good" || inter[i].condition == "Ok") {
+                delete inter[i];
             }
         }
-        //setProductsInterCondition(interM);
-      }
-    interM = interM.filter((a)=> a); // Permet d'enlever les "empty" créés par delete productsInter[i]
-    setProducts(interM);
-    setProductsInterCondition(interM);
-    setCountPerfect(!countPerfect);
-   }
-
-    const getGood = async() => {
-        //
-        setCountPerfect(false);
-        setCountOk(false);
-        setCountBad(false);
-        conditionButtons[0].classList.remove("selected");
-        conditionButtons[1].classList.add("selected");
-        conditionButtons[2].classList.remove("selected");
-        conditionButtons[3].classList.remove("selected");
-
-        let interM = [];
-        if(priceMore > 0){
-            // En récupérant directement tous les produits puis en effectuant un filtre d'array sur le prix désiré, c'est plus pratique.
-        let triadou = allProducts.filter((product) => product.price > priceMore);
-        for(let i=0; i<triadou.length;i++)
-        interM.push(triadou[i]);
-    } else {
-        for(let i=0; i<allProducts.length;i++){
-            interM.push(allProducts[i]);
-        }
-    }
-        //
-    if (countGood == true){ 
-        setCountGood(false);
-        setCountPerfect(false);
-        conditionButtons[1].classList.remove("selected");
-    }
-    else if (countGood == true && countPerfect == true) {
-        setCountPerfect(false);
-        setCountGood(false);
-    } 
-    else {
-            setCountGood(!countGood);
-            for(let i=0; i<interM.length;i++){
-                if (interM[i].condition == "Bad" || interM[i].condition == "Ok"){
-                delete interM[i];
-                }
-            }
-            interM = interM.filter((a)=> a);
-    }
-    setProducts(interM);
-    setProductsInterCondition(interM);
-        }
-
-    const getOk = async() => {
-        setCountPerfect(false);
-        setCountGood(false);
-        setCountBad(false);
-        conditionButtons[0].classList.remove("selected");
-        conditionButtons[1].classList.remove("selected");
-        conditionButtons[2].classList.add("selected");
-        conditionButtons[3].classList.remove("selected");
-
-        let interM = [];
-        if(priceMore > 0){
-        let triadou = allProducts.filter((product) => product.price > priceMore);
-        for(let i=0; i<triadou.length;i++)
-        interM.push(triadou[i]);
-    } else {
-        for(let i=0; i<allProducts.length;i++){
-            interM.push(allProducts[i]);
-        }
-    }
-
-        if (countOk == true){
-            setProducts(allProducts);
-            setCountOk(!countOk);
-            conditionButtons[2].classList.remove("selected");
-        }   else {
-                setCountOk(!countOk);
-                for(let i=0; i<interM.length;i++){
-                    if (interM[i].condition == "Bad"){
-                        delete interM[i];
-                    }
-                }
-                interM = interM.filter((a)=> a);
-                setProductsInterCondition(interM);
-            }
-    setProducts(interM);
-    }
-
-    const getBad = async ()=>{
-        conditionButtons[0].classList.remove("selected");
-        conditionButtons[1].classList.remove("selected");
-        conditionButtons[2].classList.remove("selected");
-        conditionButtons[3].classList.add("selected");
-        setCountPerfect(false);
-        setCountGood(false);
-        setCountOk(false);
-        setCountBad(true);
-
-        if(countBad == true) {
-            setCountBad(false);
-            conditionButtons[3].classList.remove("selected");
-        }
-
-        let interM = [];
-        if(priceMore > 0){
-            let triadou = allProducts.filter((product) => product.price > priceMore);
-            for(let i=0; i<triadou.length;i++)
-            interM.push(triadou[i]);
+        inter = inter.filter((a)=> a);
         } else {
             for(let i=0; i<allProducts.length;i++){
-                interM.push(allProducts[i]);
+                if (allProducts[i].condition == "Perfect"){
+                 inter.push(allProducts[i]);
+                }
             }
         }
-        setProducts(interM);
+
+
+        
+      }
+    setProducts(inter);
+    setProductsInterCondition(inter);
+    setCountPerfect(!countPerfect);
     }
+
+    const getGood = async() => {
+        console.log("a");
+    }
+    const getOk = async() => {
+        console.log("a");
+    }
+    const getBad = async() => {
+        console.log("a");
+    }
+
+    const getMoreThan = async(event) => {
+        let inter = [];
+        let key = event.target.value;
+        if(key){
+            setPriceMore(key);
+            for(let i=0; i<allProducts.length; i++){
+                if(allProducts[i].price > key) {
+                    inter.push(allProducts[i]);
+                }
+            }
+            setProductsInterPrixMoreThan(inter); 
+            if(priceLess > 0) {
+                for(let i=0; i<inter.length; i++){
+                    if(inter[i].price > priceLess){
+                        delete inter[i];
+                    }
+                }
+                inter = inter.filter((a)=> a);
+            } 
+            setProducts(inter);
+            setProductsInterPrix(inter);
+        } else {
+            setPriceMore(0);
+            if (priceLess > 0){
+                setProducts(productsInterPrixLessThan); // Sans champs less et avec un champ more, on récupère le résultat de la function more
+            } else {
+                getProducts();
+            }
+        }
+    }
+    const getLessThan = async(event) => {
+        let inter = [];
+        let key = event.target.value;
+        if(key){
+            setPriceLess(key);
+            for(let i=0; i<allProducts.length; i++){
+                if(allProducts[i].price < key) {
+                    inter.push(allProducts[i]);
+                }
+            }
+            setProductsInterPrixLessThan(inter);
+            if(priceMore > 0) {
+                for(let i=0; i<inter.length; i++){
+                    if(inter[i].price < priceMore){
+                        delete inter[i];
+                    }
+                }
+                inter = inter.filter((a)=> a);
+            } 
+            setProducts(inter);
+            setProductsInterPrixLessThan(inter);
+        } else {
+            setPriceLess(0);
+            if (priceMore > 0){
+                setProducts(productsInterPrixMoreThan); // Sans champs less et avec un champ more, on récupère le résultat de la function more
+            } else {
+                getProducts();
+            }
+        }
+    }
+   
 
     const deleteProduct= async(id)=>{
         console.warn(id);
-        let result = await fetch(`https://uuu-3fwk.onrender.com/${id}`, {
+        let result = await fetch(`http/localhost:5000/${id}`, {
             method:"Delete",
             headers: {
                 authorization: `bearer ${JSON.parse(localStorage.getItem('token'))}`
@@ -228,7 +193,7 @@ const ProductList=()=>{
     }
 
     const addToCart= async(id)=> {
-        let result = await fetch(`https://uuu-3fwk.onrender.com/${id}`, {
+        let result = await fetch(`http/localhost:5000/${id}`, {
             headers: {
                 authorization: `bearer ${JSON.parse(localStorage.getItem('token'))}`
             }
@@ -239,69 +204,12 @@ const ProductList=()=>{
     }
 
     // Ajout tri function prix
-    const getPriceMore = async(event)=>{
-        let interM = [];
-        // Prend l'arrayIntermédiaire condition si besoin
-        if (countPerfect || countGood || countOk){
-            for(let i=0; i<productsInterCondition.length; i++){
-                interM.push(productsInterCondition[i]);
-            }
-        } else {
-            for(let i=0; i<allProducts.length; i++)
-            interM.push(allProducts[i]);
-        }
+  
 
-        let key = event.target.value;
-        if(key){
-            // Retire de l'array en fonction du prix rentré
-            setPriceMore(key);
-            for(let i=0; i< interM.length;i++){
-                if( interM[i].price < key){
-                    delete interM[i];
-                }
-            }
-            //
-            interM = interM.filter((a)=> a); // Retire les cases vides de l'array
-            setProductsInterPrix(interM)      
-            } else {
-                setPriceMore(0)
-            }
-        setProducts(interM); 
-        console.log(interM);
-        }
-
-    const getPriceLess = async(event)=>{
-        let interM = [];
-        if (countPerfect || countGood || countOk){
-            for(let i=0; i<productsInterCondition.length; i++){
-                interM.push(productsInterCondition[i]);
-            }
-        } else {
-            for(let i=0; i<allProducts.length; i++)
-            interM.push(allProducts[i]);
-        }
-        let key = event.target.value;
-        if(key){
-            
-            setPriceLess(key);
-            for(let i=0; i< interM.length;i++){
-                if( interM[i].price < key){
-                    delete interM[i];
-                }
-            }
-            //
-            interM = interM.filter((a)=> a); // Retire les cases vides de l'array
-            setProductsInterPrix(interM)      
-            } else {
-                setPriceLess(0)
-            }
-        setProducts(interM); 
-    } 
-//
     const searchHandle = async(event)=>{
         let key = event.target.value;
         if(key){
-            let result = await fetch(`https://uuu-3fwk.onrender.com/${key}`, {
+            let result = await fetch(`http://localhost:5000/${key}`, {
                 headers: {
                     authorization:`bearer ${JSON.parse(localStorage.getItem('token'))}`
                 }
@@ -325,8 +233,8 @@ const ProductList=()=>{
         <div className="product-list">
             <h1>Product List</h1>
             <input type="text" className="search-product-box" placeholder="Search your product" onChange={searchHandle}/>
-            <input type="number" className="search-product-box" onChange={getPriceMore} placeholder="More than ... €"/>
-            <input type="number" className="search-product-box" onChange={getPriceLess} placeholder="Less than ... €"/>
+            <input type="number" className="search-product-box" onChange={getMoreThan}  placeholder="More than ... €"/>
+            <input type="number" className="search-product-box" onChange={getLessThan}  placeholder="Less than ... €"/>
             <p>Choose which state is acceptable for you :</p>
             <div className="condition containerCondBut">
             <button className="conditionButton" onClick={()=> {
@@ -354,7 +262,6 @@ const ProductList=()=>{
                     <li>{item.company}</li>
                     </ul>
                     <div className="product-buttons">
-                       <Link to={"/update/" + item._id}><a className="super-button">Update</a></Link>
                         <button className="super-button" onClick={()=>{addToCart(item._id);
                                                                         deleteProduct(item._id)
                         }}>Buy</button>
