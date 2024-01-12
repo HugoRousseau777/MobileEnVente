@@ -111,8 +111,10 @@ const AddProduct =  ()=>{
                 <option value="samsung 1">Samsung 1</option>
                 <option value="samsung 2">samsung 2</option>
             </select>
-            <input id="price" type="number" step="50" placeholder="Enter your selling price" value={price} onChange={(e)=>{setPrice(e.target.value)}}/>
-            {error  && !price && <span className='invalid-input'>Enter a valid price</span>}
+            {error && !name && <span className='invalid-input'>Enter a phone name !</span>}
+            <input id="price" type="number" step="50" placeholder="Enter your selling price" value={price} onChange={(e)=>{setPrice(e.target.value)}}
+            />
+            {error && !price && <span className='invalid-input'>Enter a valid price !</span>}
             <div className="condition">
                 <p>Condition of your phone :</p>
                 <div className="containerCondBut">
@@ -131,6 +133,7 @@ const AddProduct =  ()=>{
             }}>Bad</button> 
                 </div>
             </div>
+            {error && !condition && <span className='invalid-input'>Choose the condition of your phone !</span>}
             
             <select id="company" type="text" value={company} onChange={(e)=>{setCompany(e.target.value)}}>
                 <option value="">The company you bough the phone from</option>

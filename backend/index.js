@@ -44,7 +44,6 @@ app.get("/carts", async(req,res)=> {
       res.send(carts);
 })
 
-
 /*Modif : Rajouter la date d'inscription */
 app.post("/register", async (req, res) => {
   let user = new User(req.body);
@@ -155,9 +154,6 @@ app.get("/search/:key", verifyToken, async (req, res)=> {
     "$or": [
       {
         name: {$regex: req.params.key}
-      },
-      {
-        company: {$regex: req.params.key}
       },
       {
         category: {$regex: req.params.key}

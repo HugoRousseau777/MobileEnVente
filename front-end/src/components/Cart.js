@@ -77,7 +77,6 @@ const Cart=()=> {
             }
         });
         result = await result.json();
-        alert("Product added !");
     }
 
     //console.warn(cart[0]);

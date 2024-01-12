@@ -9,11 +9,17 @@ const ProductList=()=>{
     const [productsInterPrixMoreThan, setProductsInterPrixMoreThan] = useState([]);
     const [productsInterPrixLessThan, setProductsInterPrixLessThan] = useState([]);
     const [productsInterCondition, setProductsInterCondition] = useState([]);
+    const [productsInterQR, setProductsInterQR] = useState([]);
+    const [productsInterQP, setProductsInterQP] = useState([]);
+    const [productsInterRP, setProductsInterRP] = useState([]);
+    const [productsInterQPR, setProductsInterQPR] = useState([]);
+    const [productsFromSearch, setProductsFromSearch] = useState([]);
     const [productsCondition, setProductsCondition] = useState([]);
     const [condition, setCondition] = React.useState('');
     const [price, setPrice] = React.useState(0);
     const [priceMore, setPriceMore] = useState(0);
     const [priceLess, setPriceLess] = useState(0);
+    const [search, setSearch] = useState("");
 
 
     // Ajustement pour la classe selected :
@@ -23,7 +29,19 @@ const ProductList=()=>{
     const [countGood, setCountGood] = useState(false);
     const [countOk, setCountOk] = useState(false);
     const [countBad, setCountBad] = useState(false);
+    const [count, setCount] = useState(0);
 
+    conditionButtons.forEach((condButton)=> {
+        condButton.addEventListener("click", ()=> {
+            setCount(count + 1);
+            if (count % 2 != 0){
+                condButton.classList.remove("selected");
+            } else {
+                condButton.classList.add("selected");
+            }
+            
+        })
+    })
 
     let cart = JSON.parse(localStorage.getItem("cart"));
     let user = JSON.parse(localStorage.getItem("user"));
@@ -63,121 +81,283 @@ const ProductList=()=>{
 // Changes for condition choice :
 
     const getPerfect = async() => {
+        const regex = new RegExp(`${search}`);
         setCountGood(false);
         setCountOk(false);
         setCountBad(false);
-        setCountPerfect(true);
-    
-    let inter = []; 
-    //
-    if (countPerfect == true && priceLess > 0 || priceMore > 0){
-       setCountPerfect(false);
-       setProducts(productsInterPrix);
-    } else if (countPerfect == true){
-        setCountPerfect(false);
-        getProducts();
-     } else {
-        if(priceMore > 0|| priceLess > 0) {
-            for (let i=0; i<productsInterPrix.length;i++){
-                inter.push(productsInterPrix[i]);
-            }
-        for (let i=0; i<inter.length; i++){
-            if (inter[i].condition == "Bad" || inter[i].condition == "Good" || inter[i].condition == "Ok") {
-                delete inter[i];
-            }
+        let inter = []; 
+
+        for(let i=0; i<allProducts.length; i++){ // Gets all products
+           inter.push(allProducts[i]);
         }
-        inter = inter.filter((a)=> a);
-        } else {
-            for(let i=0; i<allProducts.length;i++){
-                if (allProducts[i].condition == "Perfect"){
-                 inter.push(allProducts[i]);
+        if (countPerfect == false) { // Deletes non-perfect
+            for (let i=0; i<inter.length; i++){ 
+                if(inter[i].condition == "Good" || inter[i].condition == "Ok" || inter[i].condition == "Bad"){
+                    delete inter[i]
                 }
             }
+            inter = inter.filter((a)=> a);
+            setProductsInterCondition(inter);
         }
-
-
-        
-      }
-    setProducts(inter);
-    setProductsInterCondition(inter);
-    setCountPerfect(!countPerfect);
+        if (search.length >0) { // if search is used => Deletes non-search adequate
+            for(let i=0; i<inter.length; i++){ 
+                if(!regex.test(inter[i].name)) {
+                    delete inter[i];
+                }
+        }
+            inter = inter.filter((a)=> a);
+        }
+        if (priceLess > 0) { 
+            for (let i=0; i<inter.length; i++){
+                if(inter[i].price > priceLess){
+                    delete inter[i]
+                }
+            }
+            inter = inter.filter((a)=> a);
+        }
+        if (priceMore > 0) { 
+            for (let i=0; i<inter.length; i++){
+                if(inter[i].price < priceMore){
+                    delete inter[i]
+                }
+            }
+            inter = inter.filter((a)=> a);
+        }
+        setProducts(inter);
+        setCountPerfect(!countPerfect);
     }
 
     const getGood = async() => {
-        console.log("a");
+        const regex = new RegExp(`${search}`);
+        setCountGood(false);
+        setCountOk(false);
+        setCountBad(false);
+        let inter = []; 
+
+        for(let i=0; i<allProducts.length; i++){ // Gets all products
+           inter.push(allProducts[i]);
+        }
+        if (countGood == false) { // Deletes non-perfect
+            for (let i=0; i<inter.length; i++){ 
+                if(inter[i].condition == "Ok" || inter[i].condition == "Bad"){
+                    delete inter[i]
+                }
+            }
+            inter = inter.filter((a)=> a);
+        }
+        if (search.length >0) { // if search is used => Deletes non-search adequate
+            for(let i=0; i<inter.length; i++){ 
+                if(!regex.test(inter[i].name)) {
+                    delete inter[i];
+                }
+        }
+            inter = inter.filter((a)=> a);
+        }
+        if (priceLess > 0) { 
+            for (let i=0; i<inter.length; i++){
+                if(inter[i].price > priceLess){
+                    delete inter[i]
+                }
+            }
+            inter = inter.filter((a)=> a);
+        }
+        if (priceMore > 0) { 
+            for (let i=0; i<inter.length; i++){
+                if(inter[i].price < priceMore){
+                    delete inter[i]
+                }
+            }
+            inter = inter.filter((a)=> a);
+        }
+        setProducts(inter);
+        setCountGood(!countGood);
     }
+
     const getOk = async() => {
-        console.log("a");
+        const regex = new RegExp(`${search}`);
+        setCountGood(false);
+        setCountOk(false);
+        setCountBad(false);
+        let inter = []; 
+
+        for(let i=0; i<allProducts.length; i++){ // Gets all products
+           inter.push(allProducts[i]);
+        }
+        if (countOk == false) { // Deletes non-perfect
+            for (let i=0; i<inter.length; i++){ 
+                if(inter[i].condition == "Bad"){
+                    delete inter[i]
+                }
+            }
+            inter = inter.filter((a)=> a);
+        }
+        if (search.length >0) { // if search is used => Deletes non-search adequate
+            for(let i=0; i<inter.length; i++){ 
+                if(!regex.test(inter[i].name)) {
+                    delete inter[i];
+                }
+        }
+            inter = inter.filter((a)=> a);
+        }
+        if (priceLess > 0) { 
+            for (let i=0; i<inter.length; i++){
+                if(inter[i].price > priceLess){
+                    delete inter[i]
+                }
+            }
+            inter = inter.filter((a)=> a);
+        }
+        if (priceMore > 0) { 
+            for (let i=0; i<inter.length; i++){
+                if(inter[i].price < priceMore){
+                    delete inter[i]
+                }
+            }
+            inter = inter.filter((a)=> a);
+        }
+        setProducts(inter);
+        setCountGood(!countGood);
     }
+
     const getBad = async() => {
-        console.log("a");
+        const regex = new RegExp(`${search}`);
+        setCountGood(false);
+        setCountOk(false);
+        setCountBad(false);
+        let inter = []; 
+
+        for(let i=0; i<allProducts.length; i++){ // Gets all products
+           inter.push(allProducts[i]);
+        }
+        if (search.length >0) { // if search is used => Deletes non-search adequate
+            for(let i=0; i<inter.length; i++){ 
+                if(!regex.test(inter[i].name)) {
+                    delete inter[i];
+                }
+        }
+            inter = inter.filter((a)=> a);
+        }
+        if (priceLess > 0) { 
+            for (let i=0; i<inter.length; i++){
+                if(inter[i].price > priceLess){
+                    delete inter[i]
+                }
+            }
+            inter = inter.filter((a)=> a);
+        }
+        if (priceMore > 0) { 
+            for (let i=0; i<inter.length; i++){
+                if(inter[i].price < priceMore){
+                    delete inter[i]
+                }
+            }
+            inter = inter.filter((a)=> a);
+        }
+        setProducts(inter);
+        setCountBad(!countBad);
     }
 
     const getMoreThan = async(event) => {
+        const regex = new RegExp(`${search}`);
         let inter = [];
         let key = event.target.value;
+        if(countPerfect == true || countGood == true || countOk == true || countBad == true) { // On récupère chaque array différent selon la condition activée puis trie selon le prix, Sinon, tous les produits
+            let len = productsInterCondition.length; //!!! Pourquoi l'arrayFilter plus haut n'a pas marché ?!!!
+            for(let i = 0; i < len; i++ ) {
+                productsInterCondition[i] && productsInterCondition.push(productsInterCondition[i]);  // copy non-empty values to the end of the array
+            }
+            productsInterCondition.splice(0 , len);  // cut the array and leave only the non-empty values
+            for(let i=0; i<productsInterCondition.length; i++){
+                if(productsInterCondition[i].price > key) {
+                    inter.push(productsInterCondition[i]);
+                }
+            }
+        } else {
+            for(let i=0; i<allProducts.length; i++){
+                    inter.push(allProducts[i]);
+            }
+        }
+        if (search.length >0) { // if search is used => Deletes non-search adequate
+            for(let i=0; i<inter.length; i++){ 
+                if(!regex.test(inter[i].name)) {
+                    delete inter[i];
+                }
+            }
+            inter = inter.filter((a)=> a);
+        }  
+        if(priceLess > 0) {
+            for(let i=0; i<inter.length; i++){
+                if(inter[i].price > priceLess){
+                    delete inter[i];
+                }
+            }
+            inter = inter.filter((a)=> a);
+        }
         if(key){
             setPriceMore(key);
-            for(let i=0; i<allProducts.length; i++){
-                if(allProducts[i].price > key) {
-                    inter.push(allProducts[i]);
+            for(let i=0; i<inter.length; i++){
+                if(inter[i].price < key){
+                    delete inter[i];
                 }
             }
-            setProductsInterPrixMoreThan(inter); 
-            if(priceLess > 0) {
-                for(let i=0; i<inter.length; i++){
-                    if(inter[i].price > priceLess){
-                        delete inter[i];
-                    }
-                }
-                inter = inter.filter((a)=> a);
-            } 
-            setProducts(inter);
-            setProductsInterPrix(inter);
+            inter = inter.filter((a)=> a);
         } else {
             setPriceMore(0);
-            if (priceLess > 0){
-                setProducts(productsInterPrixLessThan); // Sans champs less et avec un champ more, on récupère le résultat de la function more
-            } else {
-                getProducts();
-            }
         }
+        setProducts(inter);
     }
+
     const getLessThan = async(event) => {
+        const regex = new RegExp(`${search}`);
         let inter = [];
         let key = event.target.value;
-        if(key){
-            setPriceLess(key);
-            for(let i=0; i<allProducts.length; i++){
-                if(allProducts[i].price < key) {
-                    inter.push(allProducts[i]);
-                }
+        if(countPerfect == true || countGood == true || countOk == true || countBad == true) { // On récupère chaque array différent selon la condition activée puis trie selon le prix, Sinon, tous les produits
+            let len = productsInterCondition.length; //!!! Pourquoi l'arrayFilter plus haut n'a pas marché ?!!!
+            for(let i = 0; i < len; i++ ) {
+                productsInterCondition[i] && productsInterCondition.push(productsInterCondition[i]);  // copy non-empty values to the end of the array
             }
-            setProductsInterPrixLessThan(inter);
-            if(priceMore > 0) {
-                for(let i=0; i<inter.length; i++){
-                    if(inter[i].price < priceMore){
-                        delete inter[i];
-                    }
-                }
-                inter = inter.filter((a)=> a);
-            } 
-            setProducts(inter);
-            setProductsInterPrixLessThan(inter);
+            productsInterCondition.splice(0 , len);  // cut the array and leave only the non-empty values
+            for(let i=0; i<productsInterCondition.length; i++){
+                    inter.push(productsInterCondition[i]);
+            }
         } else {
-            setPriceLess(0);
-            if (priceMore > 0){
-                setProducts(productsInterPrixMoreThan); // Sans champs less et avec un champ more, on récupère le résultat de la function more
-            } else {
-                getProducts();
+            for(let i=0; i<allProducts.length; i++){
+                    inter.push(allProducts[i]);
             }
         }
+        if (search.length >0) { // if search is used => Deletes non-search adequate
+            for(let i=0; i<inter.length; i++){ 
+                if(!regex.test(inter[i].name)) {
+                    delete inter[i];
+                }
+            }
+            inter = inter.filter((a)=> a);
+        }  
+        if(priceMore > 0) {
+            for(let i=0; i<inter.length; i++){
+                if(inter[i].price < priceMore){
+                    delete inter[i];
+                }
+            }
+            inter = inter.filter((a)=> a);
+        }
+        if(key){
+            setPriceLess(key);
+            for(let i=0; i<inter.length; i++){
+                if(inter[i].price > key){
+                    delete inter[i];
+                }
+            }
+            inter = inter.filter((a)=> a);
+        } else {
+            setPriceLess(0);
+        }
+        setProducts(inter);
     }
    
-
     const deleteProduct= async(id)=>{
         console.warn(id);
-        let result = await fetch(`http/localhost:5000/${id}`, {
+        let result = await fetch(`http://localhost:5000/product/${id}`, {
             method:"Delete",
             headers: {
                 authorization: `bearer ${JSON.parse(localStorage.getItem('token'))}`
@@ -185,7 +365,6 @@ const ProductList=()=>{
         });
         result = await result.json();
         if(result){
-            alert("Product deleted");
             getProducts();
         } else {
             alert("Nothing happened !")
@@ -193,7 +372,7 @@ const ProductList=()=>{
     }
 
     const addToCart= async(id)=> {
-        let result = await fetch(`http/localhost:5000/${id}`, {
+        let result = await fetch(`http://localhost:5000/product/${id}`, {
             headers: {
                 authorization: `bearer ${JSON.parse(localStorage.getItem('token'))}`
             }
@@ -201,34 +380,55 @@ const ProductList=()=>{
         result = await result.json();
         cart.push(result);
         localStorage.setItem("cart",JSON.stringify(cart));
+        alert("Product added to cart !");
     }
-
-    // Ajout tri function prix
   
-
     const searchHandle = async(event)=>{
+        let inter = [];
         let key = event.target.value;
-        if(key){
-            let result = await fetch(`http://localhost:5000/${key}`, {
-                headers: {
-                    authorization:`bearer ${JSON.parse(localStorage.getItem('token'))}`
-                }
-            });
-            result = await result.json();
-            if(result){
-            setProducts(result);
-        }
-        } else {
-            getProducts(); // Let if(key) else permet d'avoir une recherche quand la barre est remplie, puis d'avoir la liste complète quand l'utilisateur efface la barre de recherce
-        }   
-    }
-/*
-    const conditionButtons = document.getElementsByClassName("conditionButton");
-        Array.from(conditionButtons)[0].addEventListener("click", ()=> {
-            if (countPerfect = true){
-
+        if(countPerfect == true || countGood == true || countOk == true || countBad == true) { 
+            let len = productsInterCondition.length; 
+            for(let i = 0; i < len; i++ ) {
+                productsInterCondition[i] && productsInterCondition.push(productsInterCondition[i]);  
             }
-        })*/
+            productsInterCondition.splice(0 , len);  
+            for(let i=0; i<productsInterCondition.length; i++){
+                    inter.push(productsInterCondition[i]);
+            }
+        } else {
+            for(let i=0; i<allProducts.length; i++){
+                    inter.push(allProducts[i]);
+            }
+        }
+        if(priceMore > 0) {
+            for(let i=0; i<inter.length; i++){
+                if(inter[i].price < priceMore){
+                    delete inter[i];
+                }
+            }
+            inter = inter.filter((a)=> a);
+        }
+        if(priceLess > 0) {
+            for(let i=0; i<inter.length; i++){
+                if(inter[i].price > priceLess){
+                    delete inter[i];
+                }
+            }
+            inter = inter.filter((a)=> a);
+        }
+        if(key) {
+            setSearch(key);
+            const regex = new RegExp(`${search}`);
+            for(let i=0; i<inter.length; i++){ 
+                if(!regex.test(inter[i].name)) {
+                    delete inter[i];
+                }
+            }
+            inter = inter.filter((a)=> a);
+        }
+        setProducts(inter);
+        }   
+
     return (
         <div className="product-list">
             <h1>Product List</h1>
@@ -250,7 +450,6 @@ const ProductList=()=>{
             {
                products.length>0 ? products.map((item, index)=> 
                <>
-               
                <div className="product">
                    <div className="product-img">
                        <img className="img-aleat" src={`/images/${imgs[allRandom[index]]}`}/>
@@ -263,12 +462,11 @@ const ProductList=()=>{
                     </ul>
                     <div className="product-buttons">
                         <button className="super-button" onClick={()=>{addToCart(item._id);
-                                                                        deleteProduct(item._id)
+                                                                        deleteProduct(item._id);
                         }}>Buy</button>
                     </div>
                 </div>
                 </>
-
                 )
                 : <h1>No result found</h1>
             }

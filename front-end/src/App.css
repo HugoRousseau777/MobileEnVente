@@ -3,6 +3,11 @@ h1 {
   margin-bottom: 0;
 }
 
+.invalid-input {
+  font-size: 20px;
+  color: red;
+}
+
 .nav-ul {
 
   margin-top: 0;
@@ -164,16 +169,13 @@ h1 {
   min-width: 150px;
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: center;
   margin-left: 1%;
   margin-right: 1%;
   margin-bottom: 10px;
 }
 
-.product:last-of-type {
-  margin-right: auto; /*Pour override justify-content start*/
-  margin-left: 3.5%; 
-}
+
 
 .product-img {
   margin-top: 0px; 
