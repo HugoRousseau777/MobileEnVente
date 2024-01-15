@@ -5,7 +5,7 @@ const UpdateProduct =  ()=>{
 
     const [name, setName] = React.useState(''); // No need to import !
     const [price, setPrice] = React.useState('');
-    const [category, setCategory] = React.useState('');
+    const [condition, setCondition] = React.useState('');
     const [company, setCompany] = React.useState('');
 
     const params = useParams();
@@ -14,33 +14,29 @@ const UpdateProduct =  ()=>{
         getProductDetails();
     }, []);
     const getProductDetails = async ()=>{
-        console.warn(params);
         let result = await fetch(`https://uuu-3fwk.onrender.com/${params.id}`, {
             headers: {
                 authorization:`bearer ${JSON.parse(localStorage.getItem('token'))}`
             }
         });
         result =await result.json();
-        console.warn(result);
         setName(result.name);
         setPrice(result.price);
-        setCategory(result.category);
+        setCondition(result.condition);
         setCompany(result.company);
     }
 
 
     const updateProduct = async ()=>{
-        console.warn(name,price,category,company);
         let result = await fetch(`https://uuu-3fwk.onrender.com/${params.id}`, {
             method:'Put',
-            body:JSON.stringify({name,price,category,company}),
+            body:JSON.stringify({name,price,condition,company}),
             headers: {
                 'Content-Type':'Application/json',
                 authorization: `bearer ${JSON.parse(localStorage.getItem('token'))}`
             }
         });
         result = await result.json();
-        console.warn(result);
         navigate('/');
     }
 
@@ -51,7 +47,7 @@ const UpdateProduct =  ()=>{
            
             <input type="text" placeholder="enter price" value={price} onChange={(e)=>{setPrice(e.target.value)}}/>
            
-            <input type="text" placeholder="enter category" value={category} onChange={(e)=>{setCategory(e.target.value)}}/>
+            <input type="text" placeholder="enter category" value={condition} onChange={(e)=>{setCondition(e.target.value)}}/>
            
             <input type="text" placeholder="enter company" value={company} onChange={(e)=>{setCompany(e.target.value)}}/>
            
