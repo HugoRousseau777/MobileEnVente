@@ -31,7 +31,7 @@ const Login = () => {
       localStorage.setItem('cart', JSON.stringify([])); // Ajout panier + register
       navigate("/");
     } else {
-      alert("Please enter connect details");
+      alert("Please enter correct connect details");
     }
   };
   return (

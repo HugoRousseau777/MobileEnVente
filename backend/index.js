@@ -44,11 +44,30 @@ app.get("/carts", async(req,res)=> {
       res.send(carts);
 })
 
-/*Modif : Rajouter la date d'inscription */
+app.get("/doubleName/:name", async (req, res)=> {
+  const doubleName = await User.findOne({name: req.params.name});
+  if(doubleName) {
+    let nameProposition = doubleName.name + "2";
+    res.send(nameProposition).json();
+  } else {
+    res.send("Le nom est disponible").json();
+  }
+})
+
+app.get("/doubleEmail/:email", async (req, res)=> {
+  const doubleEmail = await User.findOne({email: req.params.email});
+  if(doubleEmail) {
+    let emailProposition = doubleEmail.email + "2";
+    res.send(emailProposition).json();
+  } else {
+    res.send("L'email est disponible").json();
+  }
+})
+
 app.post("/register", async (req, res) => {
   let user = new User(req.body);
   const doubleName = await User.findOne({name: req.body.name});
-  const doubleEmail = await User.findOne({name: req.body.email});
+  const doubleEmail = await User.findOne({email: req.body.email});
 
   if(!doubleName && !doubleEmail) {
     if(req.body.password !== req.body.confirmPassword){
@@ -63,14 +82,18 @@ app.post("/register", async (req, res) => {
         res.send({result, auth: token});
       })
     }
-   
-  } else if(!doubleEmail) {
-    res.send("name already taken !")
-  } else if(!doubleName) {
-    res.send("email already taken !")
   } else {
-    res.send("email and username already taken !")
+      if(doubleEmail && doubleName) {
+        res.send({doubleName, doubleEmail});
+      }
+      else if(doubleName) {
+        res.send({doubleName});
+      }
+      else if(doubleEmail) {
+        res.send({doubleEmail});
+      }
   }
+    
   /*result = result.toObject(); // Allows to do line bellow
   delete result.password;*/
   /*Jwt Add*/

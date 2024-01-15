@@ -61,7 +61,7 @@ const ProductList=()=>{
 
     const getProducts = async () => {
         let interM = [];
-        let result = await fetch('http://localhost:5000/products', {
+        let result = await fetch('https://uuu-3fwk.onrender.com/products', {
             headers:{
                 authorization:`bearer ${JSON.parse(localStorage.getItem('token'))}` // Only Change  
                 //Viewable in Network -> products in Name column far down-left -> 

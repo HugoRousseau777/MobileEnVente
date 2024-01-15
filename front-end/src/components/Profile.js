@@ -98,7 +98,7 @@ const Profile=()=>{
 
         const deleteProduct= async(id)=>{
             console.warn(id);
-            let result = await fetch(`http://localhost:5000/${id}`, {
+            let result = await fetch(`https://uuu-3fwk.onrender.com/${id}`, {
                 method:"Delete",
                 headers: {
                     authorization: `bearer ${JSON.parse(localStorage.getItem('token'))}`

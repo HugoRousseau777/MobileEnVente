@@ -63,6 +63,13 @@ h1 {
   margin-bottom: 1em;
 }
 
+.invalid-input-register {
+  font-size: 20px;
+  color: red;
+  margin-top: -0.4em;
+  margin-bottom: 0.4em;
+}
+
 .register button, .login button {
   font-size: 22px;
   border-radius: 15px;
