@@ -34,12 +34,11 @@ const ProductList=()=>{
     conditionButtons.forEach((condButton)=> {
         condButton.addEventListener("click", ()=> {
             setCount(count + 1);
-            if (count % 2 != 0){
+            if (countPerfect || countGood || countGood || countBad){
                 condButton.classList.remove("selected");
             } else {
                 condButton.classList.add("selected");
             }
-            
         })
     })
 
@@ -85,6 +84,15 @@ const ProductList=()=>{
         setCountGood(false);
         setCountOk(false);
         setCountBad(false);
+
+        conditionButtons[1].classList.remove("selected");
+        conditionButtons[2].classList.remove("selected");
+        conditionButtons[3].classList.remove("selected");
+        conditionButtons[0].classList.add("selected");
+        if (countPerfect == true){
+            conditionButtons[0].classList.remove("selected");
+        }
+
         let inter = []; 
 
         for(let i=0; i<allProducts.length; i++){ // Gets all products
@@ -129,9 +137,18 @@ const ProductList=()=>{
 
     const getGood = async() => {
         const regex = new RegExp(`${search}`);
-        setCountGood(false);
+        setCountPerfect(false);
         setCountOk(false);
         setCountBad(false);
+
+        conditionButtons[0].classList.remove("selected");
+        conditionButtons[2].classList.remove("selected");
+        conditionButtons[3].classList.remove("selected");
+        conditionButtons[1].classList.add("selected");
+        if (countGood == true){
+            conditionButtons[1].classList.remove("selected");
+        }
+
         let inter = []; 
 
         for(let i=0; i<allProducts.length; i++){ // Gets all products
@@ -176,8 +193,17 @@ const ProductList=()=>{
     const getOk = async() => {
         const regex = new RegExp(`${search}`);
         setCountGood(false);
-        setCountOk(false);
+        setCountPerfect(false);
         setCountBad(false);
+
+        conditionButtons[1].classList.remove("selected");
+        conditionButtons[0].classList.remove("selected");
+        conditionButtons[3].classList.remove("selected");
+        conditionButtons[2].classList.add("selected");
+        if (countOk == true){
+            conditionButtons[2].classList.remove("selected");
+        }
+
         let inter = []; 
 
         for(let i=0; i<allProducts.length; i++){ // Gets all products
@@ -224,6 +250,15 @@ const ProductList=()=>{
         setCountGood(false);
         setCountOk(false);
         setCountBad(false);
+
+        conditionButtons[1].classList.remove("selected");
+        conditionButtons[2].classList.remove("selected");
+        conditionButtons[0].classList.remove("selected");
+        conditionButtons[3].classList.add("selected");
+        if (countBad == true){
+            conditionButtons[3].classList.remove("selected");
+        }
+
         let inter = []; 
 
         for(let i=0; i<allProducts.length; i++){ // Gets all products
