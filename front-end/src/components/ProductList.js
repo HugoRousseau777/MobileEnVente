@@ -242,14 +242,14 @@ const ProductList=()=>{
             inter = inter.filter((a)=> a);
         }
         setProducts(inter);
-        setCountGood(!countGood);
+        setCountOk(!countOk);
     }
 
     const getBad = async() => {
         const regex = new RegExp(`${search}`);
         setCountGood(false);
         setCountOk(false);
-        setCountBad(false);
+        setCountPerfect(false);
 
         conditionButtons[1].classList.remove("selected");
         conditionButtons[2].classList.remove("selected");
