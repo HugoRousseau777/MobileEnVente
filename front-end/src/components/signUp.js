@@ -54,26 +54,26 @@ const SignUp=()=>{
        
     return (
         <div className="register">
-            <h1>Register</h1>
-            <input className="inputBox" type="text" placeholder="Enter Name"
+            <h1>Inscription</h1>
+            <input className="inputBox" type="text" placeholder="Entrez un nom"
             value={name} onChange={(e)=>setName(e.target.value)}
             />
-            {error && !name && <span className='invalid-input-register'>Choose a name !</span>}
-            {doubleName && <span className='invalid-input-register'>Already taken ! Here is a suggestion for you : {nameProposition}</span>}
-            <input className="inputBox" type="text" placeholder="Enter email"
+            {error && !name && <span className='invalid-input-register'>Entrez un nom !</span>}
+            {doubleName && <span className='invalid-input-register'>Déjà pris ! voici une suggestion pour vous : {nameProposition}</span>}
+            <input className="inputBox" type="text" placeholder="Entrez un email"
             value={email} onChange={(e)=>setEmail(e.target.value)}
             />
-            {error && !email && <span className='invalid-input-register'>Choose an email !</span>}
-            {doubleEmail && <span className='invalid-input-register'>Already taken ! Here is a suggestion for you : {emailProposition}</span>}
-            <input className="inputBox" type="password" placeholder="Enter Password"
+            {error && !email && <span className='invalid-input-register'>Entrez un email !</span>}
+            {doubleEmail && <span className='invalid-input-register'>Déjà pris ! voici une suggestion pour vous : {emailProposition}</span>}
+            <input className="inputBox" type="password" placeholder="Entrez un mot de passe"
             value = {password} onChange={(e)=>setPassword(e.target.value)}
             />
-            {error && !password && <span className='invalid-input-register'>Choose a password</span>}
-            <input className="inputBox" type="password" placeholder="confirm Password"
+            {error && !password && <span className='invalid-input-register'>Choisissez votre mot de passe !</span>}
+            <input className="inputBox" type="password" placeholder="Confirmez votre mot de passe !"
             value = {confirmPassword} onChange={(e)=>setConfirmPassword(e.target.value)}
             />
-            {error && !confirmPassword && <span className='invalid-input-register'>Confirm your password</span>}
-            <button onClick={collectData} className="appButton" type="button">Sign up</button>
+            {error && !confirmPassword && <span className='invalid-input-register'>Confirmez votre mot de passe !</span>}
+            <button onClick={collectData} className="appButton" type="button">S'inscrire</button>
         </div>
     )
 }

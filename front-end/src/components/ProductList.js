@@ -20,6 +20,8 @@ const ProductList=()=>{
     const [priceMore, setPriceMore] = useState(0);
     const [priceLess, setPriceLess] = useState(0);
     const [search, setSearch] = useState("");
+    const [retiredPriceLess, setRetiredPriceLess] = useState([]);
+    const [retiredPriceMore, setRetiredPriceMore] = useState([]);
 
 
     // Ajustement pour la classe selected :
@@ -60,7 +62,7 @@ const ProductList=()=>{
 
     const getProducts = async () => {
         let interM = [];
-        let result = await fetch('https://uuu-3fwk.onrender.com/products', {
+        let result = await fetch('http://localhost:5000/products', {
             headers:{
                 authorization:`bearer ${JSON.parse(localStorage.getItem('token'))}` // Only Change  
                 //Viewable in Network -> products in Name column far down-left -> 
@@ -154,7 +156,7 @@ const ProductList=()=>{
         for(let i=0; i<allProducts.length; i++){ // Gets all products
            inter.push(allProducts[i]);
         }
-        if (countGood == false) { // Deletes non-perfect
+        if (countGood == false) { 
             for (let i=0; i<inter.length; i++){ 
                 if(inter[i].condition == "Ok" || inter[i].condition == "Bad"){
                     delete inter[i]
@@ -295,6 +297,7 @@ const ProductList=()=>{
     const getMoreThan = async(event) => {
         const regex = new RegExp(`${search}`);
         let inter = [];
+        let interBis = [];
         let key = event.target.value;
         if(countPerfect == true || countGood == true || countOk == true || countBad == true) { // On récupère chaque array différent selon la condition activée puis trie selon le prix, Sinon, tous les produits
             let len = productsInterCondition.length; //!!! Pourquoi l'arrayFilter plus haut n'a pas marché ?!!!
@@ -332,12 +335,17 @@ const ProductList=()=>{
             setPriceMore(key);
             for(let i=0; i<inter.length; i++){
                 if(inter[i].price < key){
+                    interBis.push(inter[i]);
                     delete inter[i];
                 }
             }
             inter = inter.filter((a)=> a);
+            setRetiredPriceMore(interBis);
         } else {
             setPriceMore(0);
+            for(let i=0; i<retiredPriceMore.length; i++){
+                inter.push(retiredPriceMore[i]);
+        }
         }
         setProducts(inter);
     }
@@ -345,6 +353,7 @@ const ProductList=()=>{
     const getLessThan = async(event) => {
         const regex = new RegExp(`${search}`);
         let inter = [];
+        let interBis = [];
         let key = event.target.value;
         if(countPerfect == true || countGood == true || countOk == true || countBad == true) { // On récupère chaque array différent selon la condition activée puis trie selon le prix, Sinon, tous les produits
             let len = productsInterCondition.length; //!!! Pourquoi l'arrayFilter plus haut n'a pas marché ?!!!
@@ -380,12 +389,17 @@ const ProductList=()=>{
             setPriceLess(key);
             for(let i=0; i<inter.length; i++){
                 if(inter[i].price > key){
+                    interBis.push(inter[i]);
                     delete inter[i];
                 }
             }
             inter = inter.filter((a)=> a);
+            setRetiredPriceLess(interBis);
         } else {
             setPriceLess(0);
+            for(let i=0; i<retiredPriceLess.length; i++){
+                    inter.push(retiredPriceLess[i]);
+            }
         }
         setProducts(inter);
     }
@@ -466,20 +480,20 @@ const ProductList=()=>{
 
     return (
         <div className="product-list">
-            <h1>Product List</h1>
-            <input type="text" className="search-product-box" placeholder="Search your product" onChange={searchHandle}/>
-            <input type="number" className="search-product-box" onChange={getMoreThan}  placeholder="More than ... €"/>
-            <input type="number" className="search-product-box" onChange={getLessThan}  placeholder="Less than ... €"/>
-            <p>Choose which state is acceptable for you :</p>
+            <h1>Liste des produits</h1>
+            <input type="text" className="search-product-box" placeholder="Recherchez votre produit !" onChange={searchHandle}/>
+            <input type="number" className="search-product-box" onChange={getMoreThan}  placeholder="Plus de ... €"/>
+            <input type="number" className="search-product-box" onChange={getLessThan}  placeholder="Moins de ... €"/>
+            <p>Choisissez un état acceptable pour votre achat, vous aurez cet état et mieux :</p>
             <div className="condition containerCondBut">
             <button className="conditionButton" onClick={()=> {
                     getPerfect();
-                    }}>Perfect</button> 
+                    }}>Parfait</button> 
                 <button className="conditionButton" onClick={()=>{
                      getGood();
-                    }}>Good</button> 
-                <button className="conditionButton" onClick={()=>getOk()}>Ok</button> 
-                <button className="conditionButton" onClick={()=>getBad()}>Bad</button> 
+                    }}>Bon</button> 
+                <button className="conditionButton" onClick={()=>getOk()}>Correct</button> 
+                <button className="conditionButton" onClick={()=>getBad()}>Mauvais</button> 
             </div>
             <div className="products">
             {
@@ -498,12 +512,12 @@ const ProductList=()=>{
                     <div className="product-buttons">
                         <button className="super-button" onClick={()=>{addToCart(item._id);
                                                                         deleteProduct(item._id);
-                        }}>Buy</button>
+                        }}>Acheter</button>
                     </div>
                 </div>
                 </>
                 )
-                : <h1>No result found</h1>
+                : <h1>Pas de résultat ...</h1>
             }
             </div>
         </div>

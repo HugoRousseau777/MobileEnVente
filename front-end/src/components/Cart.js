@@ -21,7 +21,6 @@ const Cart=()=> {
 
     const getCart =  ()=> {
     setCart(JSON.parse(localStorage.getItem("cart")));
-    console.warn('bouh!');
     }
 
     const validatePurchase = async()=>{
@@ -33,7 +32,6 @@ const Cart=()=> {
             }
         });
         result = await result.json();
-        console.warn("done!");
         setCart([]);
         localStorage.setItem("cart", JSON.stringify([]));
         setTotal(0);
@@ -79,11 +77,9 @@ const Cart=()=> {
         result = await result.json();
     }
 
-    //console.warn(cart[0]);
     return(<div>
-        
         <div className="cart">
-        <h1>Your cart</h1>
+        <h1>Votre panier</h1>
             <div className="articles">
             {
                 cart.map((item, index)=> 
@@ -96,11 +92,10 @@ const Cart=()=> {
                         <button onClick={(e)=>{
                                                 addProductToListAfterDelete(item);
                                                 deleteFromCart(index);
-                                                }}>Delete</button>
+                                                }}>Supprimer</button>
                         </li>
                 </ul>
                 )
-                
             }
             <p className="totalCart">Total : {total} €</p>
             <button className="command" onClick={validatePurchase}>Commander</button>

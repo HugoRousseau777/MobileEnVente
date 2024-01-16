@@ -116,9 +116,9 @@ const Profile=()=>{
     return (
         <>
         <h1>Bienvenue {JSON.parse(auth).name} !</h1>
-        <p id="registrationDate">Registered the {dateInscription}</p>
+        <p id="registrationDate">Inscrit le {dateInscription}</p>
         <div className="inSellingProcess">
-        <h2>Your products being sold : </h2>
+        <h2>Vos mobiles en vente : </h2>
         <div className="sellingContainer">
             {
                 sellingProducts.map((item, key)=> 
@@ -128,8 +128,8 @@ const Profile=()=>{
                         <p>{item.condition}</p>
                         <p>{item.company}</p>
                         <div className="optionsSelling">
-                        <button className="super-button" onClick={()=>{deleteProduct(item._id)}}>Delete</button>
-                       <Link to={"/update/" + item._id}><a className="super-button">Update</a></Link>
+                        <button className="super-button" onClick={()=>{deleteProduct(item._id)}}>Retirer</button>
+                       <Link to={"/update/" + item._id}><a className="super-button">Modifier</a></Link>
                        </div>
                     </div>
                 )
@@ -138,7 +138,7 @@ const Profile=()=>{
         </div>
        
        <div className="sold-products">
-           <h2>Your sold articles :</h2>
+           <h2>Vos mobiles vendus :</h2>
         <div className="soldContainer">
             {
                 soldProducts.map((item)=> 

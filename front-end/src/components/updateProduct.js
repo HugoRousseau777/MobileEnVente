@@ -42,16 +42,12 @@ const UpdateProduct =  ()=>{
 
     return (
         <div className="product">
-            <h1>Update Product</h1>
-            <input type="text" placeholder="enter name" value={name} onChange={(e)=>{setName(e.target.value)}}/>
-           
-            <input type="text" placeholder="enter price" value={price} onChange={(e)=>{setPrice(e.target.value)}}/>
-           
-            <input type="text" placeholder="enter category" value={condition} onChange={(e)=>{setCondition(e.target.value)}}/>
-           
-            <input type="text" placeholder="enter company" value={company} onChange={(e)=>{setCompany(e.target.value)}}/>
-           
-            <button onClick={updateProduct}>Update Product</button>
+            <h1>Modification</h1>
+            <input type="text" placeholder="Entrez le nom" value={name} onChange={(e)=>{setName(e.target.value)}}/>
+            <input type="text" placeholder="Entrez le prix" value={price} onChange={(e)=>{setPrice(e.target.value)}}/>
+            <input type="text" placeholder="Entrez l'état du téléphone" value={condition} onChange={(e)=>{setCondition(e.target.value)}}/>
+            <input type="text" placeholder="Entrez le vendeur du téléphone (avant vous)" value={company} onChange={(e)=>{setCompany(e.target.value)}}/>
+            <button onClick={updateProduct}>Mettre à jour</button>
         </div>
     )
 }

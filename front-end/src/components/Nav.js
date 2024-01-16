@@ -16,37 +16,36 @@ const Nav = () => {
       auth ?
       <ul className="nav-ul">
         <li>
-          <Link to="/">Products</Link>
+          <Link to="/">Produits</Link>
         </li>
         <li>
-          <Link to="/add">addProduct</Link>
+          <Link to="/add">Mise en vente</Link>
         </li>
         
         <li>
-          <Link to="/profile">Profile</Link>
+          <Link to="/profile">Profil</Link>
         </li>
         <li>
-          <Link to="/cart">Cart</Link>
+          <Link to="/cart">Panier</Link>
         </li>
         <li>
             <Link onClick={logout} to="/signup">
-            Logout {JSON.parse(auth).name}
+            Déconnexion {JSON.parse(auth).name}
             </Link>
         </li>
       </ul>
       :
       <ul className="nav-ul">
          <li>
-         <Link to="/signUp">Signup</Link> 
+         <Link to="/signUp">S'inscrire</Link> 
          </li>
         <li>
-          <Link to="/login">Login</Link>
+          <Link to="/login">Se connecter</Link>
         </li>
       </ul>
 }
     </div>
   );
-
 };
 
 export default Nav;

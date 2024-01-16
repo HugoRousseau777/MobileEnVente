@@ -27,8 +27,9 @@ const AddProduct =  ()=>{
          if (countPerfect == true){
             setCountPerfect(false);
             conditionButtons[0].classList.remove("selected");
-         }
+        }
     }
+    
     const goodo = async() => {
          setCondition("Good");
          setCountGood(true);
@@ -44,6 +45,7 @@ const AddProduct =  ()=>{
             conditionButtons[1].classList.remove("selected");
          }
     }
+
     const oko = async() => {
          setCondition("Ok");
          setCountGood(false);
@@ -59,6 +61,7 @@ const AddProduct =  ()=>{
             conditionButtons[2].classList.remove("selected");
          }
     }
+
     const bado = async() => {
          setCondition("Bad");
          setCountGood(false);
@@ -75,8 +78,6 @@ const AddProduct =  ()=>{
          }
     }
     
-
-
     const addProduct = async ()=>{
         if(!name || !price || !company || !condition){
             setError(true);
@@ -104,41 +105,41 @@ const AddProduct =  ()=>{
     // <button onClick={()=>setCondition("a")} When using set... directly in onClick, dont forget ()=>set...
     return (
         <div className="add-product">
-            <h1>Add Product</h1>
+            <h1>Mettre en vente un téléphone</h1>
             <select id="name-select" onChange={(e)=>{setName(e.target.value)}}>
-                <option value="">Choose your phone in the list</option>
+                <option value="">Choisissez le mobile dans la liste</option>
                 <option value="iphone 1">iphone 1</option>
                 <option value="iphone 2">iphone 2</option>
                 <option value="iphone 3">iphone 3</option>
                 <option value="samsung 1">Samsung 1</option>
                 <option value="samsung 2">samsung 2</option>
             </select>
-            {error && !name && <span className='invalid-input'>Enter a phone name !</span>}
+            {error && !name && <span className='invalid-input'>Entrez un nom !</span>}
             <input id="price" type="number" step="50" placeholder="Enter your selling price" value={price} onChange={(e)=>{setPrice(e.target.value)}}
             />
-            {error && !price && <span className='invalid-input'>Enter a valid price !</span>}
+            {error && !price && <span className='invalid-input'>Entrez un prix !</span>}
             <div className="condition">
-                <p>Condition of your phone :</p>
+                <p>État de votre téléphone :</p>
                 <div className="containerCondBut">
                 <button className="conditionButton" onClick={()=> {
                     perfecto();
-                    }}>Perfect</button> 
+                    }}>Parfait</button> 
                 <button className="conditionButton" onClick={()=>{setCondition("Good");
                 goodo();
             }
-            }>Good</button> 
+            }>Bon</button> 
                 <button className="conditionButton" onClick={()=>{setCondition("Ok")
                 oko();
-            }}>Ok</button> 
+            }}>Correct</button> 
                 <button className="conditionButton" onClick={()=>{setCondition("Bad")
                 bado();
-            }}>Bad</button> 
+            }}>Mauvais</button> 
                 </div>
             </div>
-            {error && !condition && <span className='invalid-input'>Choose the condition of your phone !</span>}
+            {error && !condition && <span className='invalid-input'>Entrez l'état de votre téléphone !</span>}
             
             <select id="company" type="text" value={company} onChange={(e)=>{setCompany(e.target.value)}}>
-                <option value="">The company you bough the phone from</option>
+                <option value="">Sélectionnez l'origine du téléphone</option>
                 <option value="Orange">Orange</option>
                 <option value="Apple">Apple</option>
                 <option value="Samsung">Samsung</option>
@@ -146,8 +147,8 @@ const AddProduct =  ()=>{
                 <option value="Novotel">Novotel</option>
                 <option value="Nokia">Nokia</option>
             </select>
-            {error  && !company && <span className='invalid-input'>Enter valid company</span>}
-            <button id="addProduct" onClick={addProduct}>Add Product</button>
+            {error  && !company && <span className='invalid-input'>Choisissez l'origine du téléphone</span>}
+            <button id="addProduct" onClick={addProduct}>Mettre en vente</button>
         </div>
     )
                 }

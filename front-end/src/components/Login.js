@@ -15,7 +15,7 @@ const Login = () => {
 
   const handleLogin = async () => {
   // Test des champs : console.warn(email,password);
-  let result = await fetch("https://uuu-3fwk.onrender.com/login", {
+  let result = await fetch("http://localhost:5000/login", {
         method:'post',
         body: JSON.stringify({email,password}),
         headers: {
@@ -36,22 +36,22 @@ const Login = () => {
   };
   return (
     <div className="login">
-      <h1>Login</h1>
+      <h1>Se connecter</h1>
       <input
         type="text"
         className="inputBox"
-        placeholder="Enter Email"
+        placeholder="Entrez votre email"
         value={email}
         onChange={(e)=>setEmail(e.target.value)}
       />
       <input
         type="text"
         className="inputBox"
-        placeholder="Enter Password"
+        placeholder="Entrez votre mot de passe"
         value={password}
         onChange={(e)=>setPassword(e.target.value)}
       />
-      <button onClick={handleLogin} type="button" className="appButton">Login</button>
+      <button onClick={handleLogin} type="button" className="appButton">Connexion</button>
     </div>
   );
 };
