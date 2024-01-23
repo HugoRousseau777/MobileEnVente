@@ -406,7 +406,7 @@ const ProductList=()=>{
    
     const deleteProduct= async(id)=>{
         console.warn(id);
-        let result = await fetch(`http://localhost:5000/product/${id}`, {
+        let result = await fetch(`https://uuu-3fwk.onrender.com/product/${id}`, {
             method:"Delete",
             headers: {
                 authorization: `bearer ${JSON.parse(localStorage.getItem('token'))}`
@@ -421,7 +421,7 @@ const ProductList=()=>{
     }
 
     const addToCart= async(id)=> {
-        let result = await fetch(`http://localhost:5000/product/${id}`, {
+        let result = await fetch(`https://uuu-3fwk.onrender.com/product/${id}`, {
             headers: {
                 authorization: `bearer ${JSON.parse(localStorage.getItem('token'))}`
             }
