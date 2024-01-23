@@ -77,7 +77,7 @@ const Profile=()=>{
     
 
     const getCarts = async()=> {
-        let result = await fetch(`https://uuu-3fwk.onrender.com/${userId}`, {
+        let result = await fetch(`https://uuu-3fwk.onrender.com/cart/${userId}`, {
             headers: {
                 authorization:`bearer ${JSON.parse(localStorage.getItem('token'))}`
             }
@@ -98,7 +98,7 @@ const Profile=()=>{
 
         const deleteProduct= async(id)=>{
             console.warn(id);
-            let result = await fetch(`https://uuu-3fwk.onrender.com/${id}`, {
+            let result = await fetch(`https://uuu-3fwk.onrender.com/product/${id}`, {
                 method:"Delete",
                 headers: {
                     authorization: `bearer ${JSON.parse(localStorage.getItem('token'))}`
