@@ -21,7 +21,7 @@ const SignUp=()=>{
             navigate('/');
         }
     }, [])
-    
+    //https://uuu-3fwk.onrender.com http://localhost:5000
     const collectData=async()=> {        
             let result = await fetch("https://uuu-3fwk.onrender.com/register", { /*Remplacement du localhost pour connecter le BA au FE  */
             method:'post',

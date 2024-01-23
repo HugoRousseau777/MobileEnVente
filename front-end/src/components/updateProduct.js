@@ -28,7 +28,7 @@ const UpdateProduct =  ()=>{
 
 
     const updateProduct = async ()=>{
-        let result = await fetch(`https://uuu-3fwk.onrender.com//product/${params.id}`, {
+        let result = await fetch(`https://uuu-3fwk.onrender.com/product/${params.id}`, {
             method:'Put',
             body:JSON.stringify({name,price,condition,company}),
             headers: {
